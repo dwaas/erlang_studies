@@ -18,21 +18,38 @@
 -record(state, {target_resource_types,
                 local_resource_tuples,
                 found_resource_tuples}).
+%% TYPES
+%-type state() :: #state{}.
+
+-type start_link() :: any().
+-type add_target_resource_type() :: any().
+-type add_local_resource() :: any().
+-type fetch_resources() :: any().
+-type trade_resources() :: any().
+
+-type resource_type() :: any().
+-type resource() :: any().
+%-type resource_tuple() :: { resource_type(), resource() }.
 
 %% API
 
+-spec start_link() -> start_link().
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
+-spec add_target_resource_type( resource_type() ) -> add_target_resource_type().
 add_target_resource_type(Type) ->
     gen_server:cast(?SERVER, {add_target_resource_type, Type}).
 
+-spec add_local_resource( resource_type(), resource() ) -> add_local_resource().
 add_local_resource(Type, Resource) ->
     gen_server:cast(?SERVER, {add_local_resource, {Type, Resource}}).
 
+-spec fetch_resources( resource_type() ) -> fetch_resources().
 fetch_resources(Type) ->
     gen_server:call(?SERVER, {fetch_resources, Type}).
 
+-spec trade_resources() -> trade_resources().
 trade_resources() ->
     gen_server:cast(?SERVER, trade_resources).
 
